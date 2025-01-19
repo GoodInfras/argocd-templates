@@ -1,4 +1,8 @@
-apps:
+apps_values:
+  git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
+    domain: .site.com
+    host: kube-ops-view
+apps_tpl_dict:
   git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
     kube-ops-view:
       spec:
