@@ -1,0 +1,76 @@
+apps_values:
+  git@github.com/ThomasInfras/argocd-template/homepage/homepage:
+    repoURL: 'https://jameswynn.github.io/helm-charts'
+    targetRevision: '">0.0.0"'
+    domain: .site.fr
+    host: home
+apps_tpl_dict:
+  git@github.com/ThomasInfras/argocd-template/homepage/homepage:
+    homepage:
+      spec:
+        source:
+          repoURL: 'https://jameswynn.github.io/helm-charts'
+          chart: homepage
+          targetRevision: '">0.0.0"' 
+          helm:
+            valueFiles:
+              - values.yaml 
+            valuesObject:
+              host: &host home{{ $.Values.apps_values.domain }}
+              enableRbac: true
+              serviceAccount:
+                create: true
+              config:
+                settings:
+                  quicklaunch:
+                    searchDescriptions: true
+                    hideInternetSearch: true
+                    showSearchSuggestions: true
+                    hideVisitURL: true
+                    provider: google                       
+                  headerStyle: boxedWidgets
+                services: {}
+                widgets:                          
+                  - resources:
+                      # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
+                      backend: kubernetes
+                      expanded: true
+                      cpu: true
+                      memory: true
+                  - search:
+                      target: _blank
+                      quicklaunch:
+                        searchDescriptions: true
+                        hideInternetSearch: true
+                        showSearchSuggestions: true
+                        hideVisitURL: true
+                      provider: google                                 
+                  - kubernetes:
+                      cluster:
+                        show: true
+                        cpu: true
+                        memory: true
+                        showLabel: true
+                        label: "cluster"
+                      nodes:
+                        show: true
+                        cpu: true
+                        memory: true
+                        showLabel: true   
+                kubernetes:
+                  mode: cluster                           
+              ingress:
+                main:
+                  enabled: true
+                  labels:
+                    gethomepage.dev/enabled: "true"
+                  annotations:
+                    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                    gethomepage.dev/name: "HomepageCUSTOM"
+                    gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
+                  ingressClassName: "nginx"
+                  hosts:
+                    - host: *host
+                      paths:
+                        - path: /
+                          pathType: Prefix
