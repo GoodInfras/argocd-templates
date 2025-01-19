@@ -1,0 +1,19 @@
+apps:
+  git@github.com/ThomasInfras/argocd-template/tekton/tekton:
+    tekton:
+      metadata:
+        namespace: argocd
+      spec:
+        destination:
+          namespace: tekton-operator
+        source:
+          repoURL: 'git@github.com:ThomasInfras/k8s-automated-ovh'
+          targetRevision: HEAD
+          path: k8s-argocd-apps/tekton
+  
+   #       - repoURL: https://github.com/tektoncd/operator
+   #         targetRevision: "HEAD"
+   #         path: charts/tekton-operator
+   #         helm:
+   #           values: |
+   #             installCRDs: true
