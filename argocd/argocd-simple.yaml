@@ -4,30 +4,6 @@ apps_values:
     adminArgo: ""
     ingressClassName: "nginx"
 
-
-objects_tpl_string: |
-  {{ $appsValues :=  (get .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd-simple")  }}
-  secret:
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: auth
-      namespace: argocd-infra
-    data:
-      users: |
-        harborAdminPassword: {{ derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "admin" "harbor.local" }}
-        admin: {{ (derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "admin" "argo.local"  )  }}
-        a36235: {{ (derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "a36235" "ingress.local"  )   }}
-  basic-auth:
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: basic-auth
-      namespace: argocd
-    #type: Opaque
-    stringData:
-      auth: {{  htpasswd "a36235" (derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "a36235" "ingress.local"  )   }}
-
 apps_tpl_dict:
   git@github.com/ThomasInfras/argocd-template/argocd-simple:
     argocd:
