@@ -1,4 +1,4 @@
-apps_tpl_dict:
+apps_dict:
   git@github.com/ThomasInfras/argocd-template/argocd-simple:
     argocd:
       spec:
