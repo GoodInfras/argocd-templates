@@ -11,12 +11,12 @@ apps_tpl_dict:
         source:
           repoURL: 'https://jameswynn.github.io/helm-charts'
           chart: homepage
-          targetRevision: '">0.0.0"' 
+          targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "targetRevision" }}'
           helm:
             valueFiles:
               - values.yaml 
             valuesObject:
-              host: &host home{{ $.Values.apps_values.domain }}
+              host: &host home{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "domain" }}
               enableRbac: true
               serviceAccount:
                 create: true
