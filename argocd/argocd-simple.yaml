@@ -1,10 +1,10 @@
 apps_values:
-  git@github.com/ThomasInfras/argocd-template/argocd-simple_tpl:
+  git@github.com/ThomasInfras/argocd-template/argocd-simple:
     domain: ".site.com"
     adminArgo: ""
     ingressClassName: "nginx"
 
-apps_tpl_dict:
+apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/argocd-simple:
     argocd:
       metadata:
