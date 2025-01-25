@@ -13,4 +13,4 @@ apps_dict_tpl:
         source:
           repoURL: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "repoURL" }}'
           targetRevision: HEAD
-          path: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "repoURL" }}'
+          path: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "path" }}'
