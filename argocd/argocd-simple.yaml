@@ -1,6 +1,6 @@
 apps_values:
   git@github.com/ThomasInfras/argocd-template/argocd/argocd-simple:
-    domain: ".nixos.local"
+    domain: ".kind"
     adminArgo: ""
     ingressClassName: "nginx"
     targetRevision: '">0.0.0"' 
