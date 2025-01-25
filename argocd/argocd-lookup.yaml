@@ -78,15 +78,15 @@ objects_dict:
         name: argocd-repo-server-access
         apiGroup: rbac.authorization.k8s.io
   
-    testauth:
-      apiVersion: traefik.io/v1alpha1
-      kind: Middleware
-      metadata:
-        name: testauth  
-        namespace: argocd-infra
-      spec:
-        basicAuth:
-          #headerField: X-WebAuth-User
-          secret: basic-auth
-          realm: "Traefik-ovh"
-          #removeHeader: true
+#    testauth:
+#      apiVersion: traefik.io/v1alpha1
+#      kind: Middleware
+#      metadata:
+#        name: testauth  
+#        namespace: argocd-infra
+#      spec:
+#        basicAuth:
+#          #headerField: X-WebAuth-User
+#          secret: basic-auth
+#          realm: "Traefik-ovh"
+#          #removeHeader: true
