@@ -1,9 +1,7 @@
 apps_values:
   git@github.com/ThomasInfras/argocd-template/homepage/homepage:
-    repoURL: 'https://jameswynn.github.io/helm-charts'
     targetRevision: '">0.0.0"'
     domain: .site.fr
-    host: home
 apps_tpl_dict:
   git@github.com/ThomasInfras/argocd-template/homepage/homepage:
     homepage:
