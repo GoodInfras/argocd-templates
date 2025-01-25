@@ -19,7 +19,7 @@ apps_dict_tpl:
           chart: argo-cd
           targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-simple" "targetRevision" }}'
           helm:
-            valuesObjects:
+            valuesObject:
               configs:
                 cm:
                   application.instanceLabelKey: argocd.argoproj.io/instance-argocd
