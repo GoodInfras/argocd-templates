@@ -1,6 +1,6 @@
 apps_values:
   git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
-    repoURL: "ssh://git@github.com/ThomasInfras/k8s-automated-ovh"
+    repoURL: "https://github.com/ThomasInfras/k8s-automated-kind" 
     path: k8s-argocd-apps
 apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
