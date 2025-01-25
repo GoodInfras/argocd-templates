@@ -1,5 +1,5 @@
 apps_dict:
-  git@github.com/ThomasInfras/argocd-template/argocd-simple:
+  git@github.com/ThomasInfras/argocd-template/argocd/argocd-simple:
     argocd:
       spec:
         source:
