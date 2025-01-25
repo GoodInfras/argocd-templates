@@ -1,7 +1,7 @@
 apps_values:
   git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
     domain: .site.com
-    host: kube-ops-view
+    targetRevision: '">0.0.0"'
 apps_tpl_dict:
   git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
     kube-ops-view:
@@ -9,10 +9,10 @@ apps_tpl_dict:
         sources:
           - repoURL: 'https://charts.christianhuth.de'
             chart: kube-ops-view
-            targetRevision: '">0.0.0"'
+            targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "targetRevision" }}'
             helm:
               values: |
-                host: kube-ops-view{{ $.Values.apps_values.domain }}
+                host: kube-ops-view{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "domain" }}
                 ingress:
                   enabled: true
                   className: "nginx"
