@@ -1,7 +1,7 @@
 apps_values:
   git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
-    domain: ".site.com"
     repoURL: "ssh://git@github.com/ThomasInfras/k8s-automated-ovh"
+    path: k8s-argocd-apps
 apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
     k8s-argocd-apps:
@@ -10,7 +10,7 @@ apps_dict_tpl:
       spec:
         destination: 
           namespace: argocd            
-        sources:
-          - repoURL: {{ $appsValues.repoURL }}
-            targetRevision: HEAD
-            path: k8s-argocd-apps
+        source:
+          repoURL: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "repoURL" }}'
+          targetRevision: HEAD
+          path: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "repoURL" }}'
