@@ -3,9 +3,9 @@ apps_values:
     targetRevision: '">0.0.0"'
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/netdata/netdata:
-    metrics:
+    netdata:
       spec:
         source:
           repoURL: 'https://netdata.github.io/helmchart/'
           chart: netdata
-          targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/netdata/netdata" "targetRevision" }}'
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/netdata/netdata" "targetRevision" }}'
