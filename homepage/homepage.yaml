@@ -2,7 +2,7 @@ apps_values:
   git@github.com/ThomasInfras/argocd-template/homepage/homepage:
     targetRevision: '">0.0.0"'
     domain: .site.fr
-apps_tpl_dict:
+apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/homepage/homepage:
     homepage:
       spec:
