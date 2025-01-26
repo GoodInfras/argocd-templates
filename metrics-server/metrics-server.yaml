@@ -9,3 +9,7 @@ apps_dict_tpl:
           repoURL: 'https://kubernetes-sigs.github.io/metrics-server'
           chart: metrics-server
           targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/metrics-server/metrics-server" "targetRevision" }}'
+          helm:
+            valuesObject:
+              args:
+                --kubelet-insecure-tls
