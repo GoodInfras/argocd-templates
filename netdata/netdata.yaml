@@ -19,3 +19,4 @@ apps_dict_tpl:
                   gethomepage.dev/enabled: "true"
                   #gethomepage.dev/name: "netdata"
                   gethomepage.dev/group: "monitoring"
+                  gethomepage.dev/icon: "https://avatars.githubusercontent.com/u/43390781?s=200&v=4"
