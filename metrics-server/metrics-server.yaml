@@ -12,4 +12,4 @@ apps_dict_tpl:
           helm:
             valuesObject:
               args:
-                --kubelet-insecure-tls
+                - --kubelet-insecure-tls
