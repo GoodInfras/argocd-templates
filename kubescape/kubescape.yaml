@@ -7,6 +7,8 @@ apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/kubescape/kubescape:
     kubescape:
       spec:
+        destination: 
+          namespace: kubescape      
         source:
           repoURL: 'https://kubescape.github.io/helm-charts'
           chart: kubescape-operator
