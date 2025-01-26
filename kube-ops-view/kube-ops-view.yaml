@@ -2,7 +2,7 @@ apps_values:
   git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
     domain: .site.com
     targetRevision: '">0.0.0"'
-apps_tpl_dict:
+apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view:
     kube-ops-view:
       spec:
