@@ -14,4 +14,7 @@ apps_dict_tpl:
             valuesObject:
               ingress:
                 hosts:
-                  - netdata{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/netdata/netdata" "domain" }}         
+                  - netdata{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/netdata/netdata" "domain" }} 
+                annotations:
+                  gethomepage.dev/name: "netdata"
+                  gethomepage.dev/group: "monitoring"
