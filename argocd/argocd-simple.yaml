@@ -32,9 +32,9 @@ apps_dict_tpl:
                   ingressClassName: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-simple" "ingressClassName" }}'
                   enabled: true
                   annotations:
-                    nginx.ingress.kubernetes.io/auth-type: basic
-                    nginx.ingress.kubernetes.io/auth-secret: basic-auth
-                    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"                
+                    #nginx.ingress.kubernetes.io/auth-type: basic
+                    #nginx.ingress.kubernetes.io/auth-secret: basic-auth
+                    #nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"                
                     gethomepage.dev/enabled: "true"
                     gethomepage.dev/name: "ARGOCD"
                     gethomepage.dev/pod-selector: "app.kubernetes.io/component=server"
