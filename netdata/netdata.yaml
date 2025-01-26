@@ -1,0 +1,11 @@
+apps_values:
+  github.com/ThomasInfras/argocd-template/netdata/netadata:
+    targetRevision: '">0.0.0"'
+apps_dict_tpl:
+  github.com/ThomasInfras/argocd-template/netdata/netdata:
+    metrics:
+      spec:
+        source:
+          repoURL: 'https://netdata.github.io/helmchart/'
+          chart: netdata
+          targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/netdata/netdata" "targetRevision" }}'
