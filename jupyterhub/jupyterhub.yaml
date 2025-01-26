@@ -14,6 +14,9 @@ apps_dict_tpl:
           targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "targetRevision" }}'
           helm:
             valuesObject:
+              proxy:
+                service:
+                  type: ClusterIP            
               ingress:
                 enabled: true
                 annotations:
