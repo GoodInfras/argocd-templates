@@ -38,7 +38,7 @@ apps_dict_tpl:
                     gethomepage.dev/enabled: "true"
                     gethomepage.dev/name: "ARGOCD"
                     gethomepage.dev/group: "CI/CD"
-                    gethomepage.dev/group: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
+                    gethomepage.dev/icon: "https://argo-cd.readthedocs.io/en/stable/assets/logo.png"
                     gethomepage.dev/pod-selector: "app.kubernetes.io/component=server"
                     #traefik.ingress.kubernetes.io/router.tls: "true"
                     #traefik.ingress.kubernetes.io/router.middlewares: argocd-infra-testauth@kubernetescrd
