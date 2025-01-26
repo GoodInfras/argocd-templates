@@ -1,4 +1,3 @@
-helm repo add jupyterhub https://hub.jupyter.org/helm-chart/
 apps_values:
   github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub:
     domain: ".kind.localhost"
