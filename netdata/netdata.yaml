@@ -1,6 +1,7 @@
 apps_values:
   github.com/ThomasInfras/argocd-template/netdata/netdata:
     targetRevision: '">0.0.0"'
+    domain: .kind.localhost
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/netdata/netdata:
     netdata:
@@ -9,3 +10,8 @@ apps_dict_tpl:
           repoURL: 'https://netdata.github.io/helmchart/'
           chart: netdata
           targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/netdata/netdata" "targetRevision" }}'
+          helm:
+            valuesObject:
+              ingress:
+                hosts:
+                  - netdata{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/netdata/netdata" "domain" }}         
