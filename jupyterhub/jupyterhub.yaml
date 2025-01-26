@@ -12,16 +12,18 @@ apps_dict_tpl:
           repoURL: 'https://hub.jupyter.org/helm-chart/'
           chart: jupyterhub
           targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "targetRevision" }}'
-          ingress:
-            enabled: true
-            annotations:
-              gethomepage.dev/enabled: "true"
-              gethomepage.dev/group: tools
-              #gethomepage.dev/name: "jupyterhub"
-              #gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."            
-            ingressClassName: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "ingressClassName" }}'
-            hosts: 
-              - host: jupyterhub{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "domain" }}
-                paths:
-                  - path: /
-                    pathType: Prefix            
+          helm:
+            valuesObject:
+              ingress:
+                enabled: true
+                annotations:
+                  gethomepage.dev/enabled: "true"
+                  gethomepage.dev/group: tools
+                  #gethomepage.dev/name: "jupyterhub"
+                  #gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."            
+                ingressClassName: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "ingressClassName" }}'
+                hosts: 
+                  - host: jupyterhub{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "domain" }}
+                    paths:
+                      - path: /
+                        pathType: Prefix            
