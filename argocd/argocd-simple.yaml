@@ -37,6 +37,7 @@ apps_dict_tpl:
                     #nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - ok"                
                     gethomepage.dev/enabled: "true"
                     gethomepage.dev/name: "ARGOCD"
+                    gethomepage.dev/group: "CI/CD"
                     gethomepage.dev/pod-selector: "app.kubernetes.io/component=server"
                     #traefik.ingress.kubernetes.io/router.tls: "true"
                     #traefik.ingress.kubernetes.io/router.middlewares: argocd-infra-testauth@kubernetescrd
