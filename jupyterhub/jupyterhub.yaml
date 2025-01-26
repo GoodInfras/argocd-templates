@@ -26,7 +26,4 @@ apps_dict_tpl:
                   #gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."            
                 ingressClassName: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "ingressClassName" }}'
                 hosts: 
-                  - host: jupyterhub{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "domain" }}
-                    paths:
-                      - path: /
-                        pathType: Prefix            
+                  - jupyterhub{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/jupyterhub/jupyterhub" "domain" }}
