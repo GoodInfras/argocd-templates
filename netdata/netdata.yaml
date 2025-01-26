@@ -1,5 +1,5 @@
 apps_values:
-  github.com/ThomasInfras/argocd-template/netdata/netadata:
+  github.com/ThomasInfras/argocd-template/netdata/netdata:
     targetRevision: '">0.0.0"'
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/netdata/netdata:
