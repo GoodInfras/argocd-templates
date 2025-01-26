@@ -1,0 +1,17 @@
+#helm repo add kubescape https://kubescape.github.io/helm-charts/ ; helm repo update ; helm upgrade --install kubescape kubescape/kubescape-operator -n kubescape --create-namespace --set clusterName=`kubectl config current-context` --set capabilities.continuousScan=enable
+apps_values:
+  github.com/ThomasInfras/argocd-template/kubescape/kubescape:
+    targetRevision: '">0.0.0"'
+    domain: .kind.localhost
+apps_dict_tpl:
+  github.com/ThomasInfras/argocd-template/kubescape/kubescape:
+    kubescape:
+      spec:
+        source:
+          repoURL: 'https://kubescape.github.io/helm-charts'
+          chart: kubescape-operator
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/kubescape/kubescape" "targetRevision" }}'
+          helm:
+            valuesObject:
+              capabilities:
+                continuousScan: enable
