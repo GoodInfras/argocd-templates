@@ -1,8 +1,8 @@
 apps_values:
-  git@github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
+  github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
     targetRevision: '">0.0.0"'
 apps_dict_tpl:
-  git@github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
+  github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
     nginx:
       metadata:
         namespace: argocd-infra
