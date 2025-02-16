@@ -13,5 +13,4 @@ apps_dict_tpl:
           helm:
             valueFiles:
               - values.yaml 
-            valuesObject:
-              {}
+            valuesObject: {}
