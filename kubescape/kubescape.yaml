@@ -7,6 +7,12 @@ apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/kubescape/kubescape:
     kubescape:
       spec:
+        syncPolicy:
+          managedNamespaceMetadata: 
+            labels:
+              pod-security.kubernetes.io/enforce: privileged
+              pod-security.kubernetes.io/audit: privileged
+              pod-security.kubernetes.io/warn: privileged      
         destination: 
           namespace: kubescape      
         source:
