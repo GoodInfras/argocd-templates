@@ -15,19 +15,19 @@ apps_dict_tpl:
           targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort" "targetRevision" }}'
           helm:
             valuesObject:
-              defaultBackend:                                                                                                                                                                                                                  
-                nodeSelector:                                                                                                                                                                                                                  
-                 node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
+              #defaultBackend:                                                                                                                                                                                                                  
+                #nodeSelector:                                                                                                                                                                                                                  
+                 #node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
               controller:
                 extraArgs:
                   enable-ssl-passthrough: ""
                   v: 3
-                admissionWebhooks:                                                                                                                                                                                                             
-                  patch:                                                                                                                                                                                                                       
-                    nodeSelector:                                                                                                                                                                                                              
-                     node-role.kubernetes.io/master: "true"                                                                                                                                                                                          
-                nodeSelector:                                                                                                                                                                                                                  
-                 node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
+                #admissionWebhooks:                                                                                                                                                                                                             
+                  #patch:                                                                                                                                                                                                                       
+                    #nodeSelector:                                                                                                                                                                                                              
+                     #node-role.kubernetes.io/master: "true"                                                                                                                                                                                          
+                #nodeSelector:                                                                                                                                                                                                                  
+                 #node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
                                                                                                                                                                                                                                                
                 service:                                                                                                                                                                                                                       
                   type: NodePort                                                                                                                                                                                                
