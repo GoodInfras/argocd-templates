@@ -12,7 +12,9 @@ apps_dict_tpl:
             labels:
               pod-security.kubernetes.io/enforce: privileged
               pod-security.kubernetes.io/audit: privileged
-              pod-security.kubernetes.io/warn: privileged            
+              pod-security.kubernetes.io/warn: privileged   
+        destination:
+          namespace: nginx-ingress-controller              
         source:
           repoURL: 'https://kubernetes.github.io/ingress-nginx'
           chart: ingress-nginx
