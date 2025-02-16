@@ -9,43 +9,43 @@ apps_dict_tpl:
       spec:
         destination:
           namespace: nginx-ingress-controller
-        sources:
-          - repoURL: 'https://kubernetes.github.io/ingress-nginx'
-            chart: ingress-nginx
-            targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort" "targetRevision" }}'
-            helm:
-              valuesObject:
-                defaultBackend:                                                                                                                                                                                                                  
-                  nodeSelector:                                                                                                                                                                                                                  
-                   node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
-                controller:
-                  extraArgs:
-                    enable-ssl-passthrough: ""
-                    v: 3
-                  admissionWebhooks:                                                                                                                                                                                                             
-                    patch:                                                                                                                                                                                                                       
-                      nodeSelector:                                                                                                                                                                                                              
-                       node-role.kubernetes.io/master: "true"                                                                                                                                                                                          
-                  nodeSelector:                                                                                                                                                                                                                  
-                   node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
-                                                                                                                                                                                                                                                 
-                  service:                                                                                                                                                                                                                       
-                    type: NodePort                                                                                                                                                                                                
-                    enabled: true                                                                                                                                                                                                                                                                                                                                                                                    
-                    ports:                                                                                                                                                                                                                       
-                      http: 80                                                                                                                                                                                                                   
-                      https: 443                                                                                                                                                                                                                 
-                    targetPorts:                                                                                                                                                                                                                 
-                      http: http                                                                                                                                                                                                                 
-                      https: https                                                                                                                                                                                                                                                                                                                                                                                                                              
-                  ingressClassResource:                                                                                                                                                                                                          
-                    name:                                                                                                                                                                                                                        
-                      nginx                                                                                                                                                                                                                      
-                  hostNetwork: true                                                                                                                                                                                                              
-                  kind: DaemonSet                                                                                                                                                                                                                
-                                                                                                                                                                                                                                                 
-                udp:                                                                                                                                                                                                                             
-                  53: "openstack/powerdns:53"                                                                                                                                                                                                          
-                tcp:                                                                                                                                                                                                                             
-                  53: "openstack/powerdns:53"                                                                                                                                                                                                          
-                                                   
+        source:
+          repoURL: 'https://kubernetes.github.io/ingress-nginx'
+          chart: ingress-nginx
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort" "targetRevision" }}'
+          helm:
+            valuesObject:
+              defaultBackend:                                                                                                                                                                                                                  
+                nodeSelector:                                                                                                                                                                                                                  
+                 node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
+              controller:
+                extraArgs:
+                  enable-ssl-passthrough: ""
+                  v: 3
+                admissionWebhooks:                                                                                                                                                                                                             
+                  patch:                                                                                                                                                                                                                       
+                    nodeSelector:                                                                                                                                                                                                              
+                     node-role.kubernetes.io/master: "true"                                                                                                                                                                                          
+                nodeSelector:                                                                                                                                                                                                                  
+                 node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
+                                                                                                                                                                                                                                               
+                service:                                                                                                                                                                                                                       
+                  type: NodePort                                                                                                                                                                                                
+                  enabled: true                                                                                                                                                                                                                                                                                                                                                                                    
+                  ports:                                                                                                                                                                                                                       
+                    http: 80                                                                                                                                                                                                                   
+                    https: 443                                                                                                                                                                                                                 
+                  targetPorts:                                                                                                                                                                                                                 
+                    http: http                                                                                                                                                                                                                 
+                    https: https                                                                                                                                                                                                                                                                                                                                                                                                                              
+                ingressClassResource:                                                                                                                                                                                                          
+                  name:                                                                                                                                                                                                                        
+                    nginx                                                                                                                                                                                                                      
+                hostNetwork: true                                                                                                                                                                                                              
+                kind: DaemonSet                                                                                                                                                                                                                
+                                                                                                                                                                                                                                               
+              udp:                                                                                                                                                                                                                             
+                53: "openstack/powerdns:53"                                                                                                                                                                                                          
+              tcp:                                                                                                                                                                                                                             
+                53: "openstack/powerdns:53"                                                                                                                                                                                                          
+                                                 
