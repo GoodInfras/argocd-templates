@@ -7,6 +7,12 @@ apps_dict_tpl:
       metadata:
         namespace: argocd-infra
       spec:
+        syncPolicy:
+          managedNamespaceMetadata: 
+            labels:
+              pod-security.kubernetes.io/enforce: privileged
+              pod-security.kubernetes.io/audit: privileged
+              pod-security.kubernetes.io/warn: privileged            
         destination:
           namespace: nginx-ingress-controller
         source:
@@ -15,11 +21,6 @@ apps_dict_tpl:
           targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort" "targetRevision" }}'
           helm:
             valuesObject:
-              commonLabels:
-                pod-security.kubernetes.io/enforce: privileged
-                pod-security.kubernetes.io/audit: privileged
-                pod-security.kubernetes.io/warn: privileged
-      
               #defaultBackend:                                                                                                                                                                                                                  
                 #nodeSelector:                                                                                                                                                                                                                  
                  #node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
