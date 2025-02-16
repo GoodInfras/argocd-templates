@@ -48,12 +48,11 @@ apps_dict_tpl:
                   name:                                                                                                                                                                                                                        
                     nginx                                                                                                                                                                                                                      
                 hostNetwork: true                                                                                                                                                                                                              
-                kind: DaemonSet                                                                                                                                                                                                                
-                                                                                                                                                                                                                                               
+                kind: DaemonSet                                                                                                                                                                                                                                                                                                                                                                                                                            
               udp:                                                                                                                                                                                                                             
                 #53: "openstack/powerdns:53"      
-                53: "bind9-4207678241/bind9-4207678241-svc:53"
+                "53": "bind9-4207678241/bind9-4207678241-svc:53"
               tcp:                                                                                                                                                                                                                             
                 #53: "openstack/powerdns:53"
-                53: "bind9-4207678241/bind9-4207678241-svc:53"
+                "53": "bind9-4207678241/bind9-4207678241-svc:53"
                                                  
