@@ -51,7 +51,9 @@ apps_dict_tpl:
                 kind: DaemonSet                                                                                                                                                                                                                
                                                                                                                                                                                                                                                
               udp:                                                                                                                                                                                                                             
-                53: "openstack/powerdns:53"                                                                                                                                                                                                          
+                #53: "openstack/powerdns:53"      
+                53: "bind9-4207678241/bind9-4207678241-svc"
               tcp:                                                                                                                                                                                                                             
-                53: "openstack/powerdns:53"                                                                                                                                                                                                          
+                #53: "openstack/powerdns:53"
+                53: "bind9-4207678241/bind9-4207678241-svc"
                                                  
