@@ -1,0 +1,17 @@
+apps_values:
+  github.com/ThomasInfras/argocd-template/coredns/coredns:
+    targetRevision: '">0.0.0"'
+    domain: .site.fr
+apps_dict_tpl:
+  github.com/ThomasInfras/argocd-template/coredns/coredns:
+    coredns:
+      spec:
+        source:
+          repoURL: 'https://coredns.github.io/helm'
+          chart: coredns
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/coredns/coredns" "targetRevision" }}'
+          helm:
+            valueFiles:
+              - values.yaml 
+            valuesObject:
+              isClusterService: false
