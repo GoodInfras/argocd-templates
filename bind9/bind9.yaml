@@ -1,0 +1,17 @@
+apps_values:
+  github.com/ThomasInfras/argocd-template/bind9/bind9:
+    targetRevision: '">0.0.0"' 
+    #1.0.1
+apps_dict_tpl:
+  github.com/ThomasInfras/argocd-template/bind9/bind9:
+    coredns:
+      spec:
+        source:
+          repoURL: 'https://artem-shestakov.github.io/helm-charts'
+          chart: bind9
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/bind9/bind9" "targetRevision" }}'
+          helm:
+            valueFiles:
+              - values.yaml 
+            valuesObject:
+              {}
