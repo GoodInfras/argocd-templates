@@ -3,7 +3,7 @@ apps_values:
     targetRevision: '">0.0.0"'
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
-    nig:
+    nginx:
       metadata:
         namespace: argocd-infra
       spec:
