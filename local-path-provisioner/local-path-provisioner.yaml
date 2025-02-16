@@ -5,7 +5,7 @@ apps_values:
     domain: .site.fr
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner:
-    coredns:
+    local-path-provisioner:
       spec:
         source:
           repoURL: 'https://github.com/rancher/local-path-provisioner'
