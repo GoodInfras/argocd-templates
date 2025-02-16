@@ -15,7 +15,6 @@ apps_dict_tpl:
               - values.yaml 
             valuesObject:
               service:
-                type: LoadBalancer
                 ports:
                   - name: 53-53-tcp
                     port: 53
