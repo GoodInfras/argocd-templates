@@ -52,8 +52,8 @@ apps_dict_tpl:
                                                                                                                                                                                                                                                
               udp:                                                                                                                                                                                                                             
                 #53: "openstack/powerdns:53"      
-                53: "bind9-4207678241/bind9-4207678241-svc"
+                53: "bind9-4207678241/bind9-4207678241-svc:53"
               tcp:                                                                                                                                                                                                                             
                 #53: "openstack/powerdns:53"
-                53: "bind9-4207678241/bind9-4207678241-svc"
+                53: "bind9-4207678241/bind9-4207678241-svc:53"
                                                  
