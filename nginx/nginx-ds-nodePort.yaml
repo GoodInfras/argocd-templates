@@ -3,7 +3,7 @@ apps_values:
     targetRevision: '">0.0.0"'
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/nginx/nginx-ds-nodePort:
-    nginx:
+    nginx-ingress-controller:
       metadata:
         namespace: argocd-infra
       spec:
@@ -13,8 +13,6 @@ apps_dict_tpl:
               pod-security.kubernetes.io/enforce: privileged
               pod-security.kubernetes.io/audit: privileged
               pod-security.kubernetes.io/warn: privileged            
-        destination:
-          namespace: nginx-ingress-controller
         source:
           repoURL: 'https://kubernetes.github.io/ingress-nginx'
           chart: ingress-nginx
