@@ -1,0 +1,15 @@
+apps:
+  local-path-provisioner:
+    metadata:
+      namespace: argocd
+    spec:
+      destination:
+        namespace: local-path-provisioner
+      sources:
+      - repoURL: https://github.com/rancher/local-path-provisioner 
+        targetRevision: "v0.0.30"
+        path: deploy/chart/local-path-provisioner
+        helm:
+          values: |
+            storageClass:
+              defaultClass: true
