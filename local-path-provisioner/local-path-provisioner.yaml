@@ -1,15 +1,20 @@
-apps:
-  local-path-provisioner:
-    metadata:
-      namespace: argocd
-    spec:
-      destination:
-        namespace: local-path-provisioner
-      sources:
-      - repoURL: https://github.com/rancher/local-path-provisioner 
-        targetRevision: "v0.0.30"
-        path: deploy/chart/local-path-provisioner
-        helm:
-          values: |
-            storageClass:
-              defaultClass: true
+apps_values:
+  github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner:
+    targetRevision: '">0.0.0"' 
+    #"v0.0.30"
+    domain: .site.fr
+apps_dict_tpl:
+  github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner:
+    coredns:
+      spec:
+        source:
+          repoURL: 'https://github.com/rancher/local-path-provisioner'
+          path: deploy/chart/local-path-provisioner
+          targetRevision: '{{  index .Values.apps_values "github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner" "targetRevision" }}'
+          helm:
+            valueFiles:
+              - values.yaml 
+            valuesObject:
+              storageClass:
+                defaultClass: true
+
