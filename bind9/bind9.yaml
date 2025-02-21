@@ -21,7 +21,7 @@ apps_dict_tpl:
                     port: 53
                     protocol: TCP
                     targetPort: 53
-                  - name: 53-53-udp
+                  - name: 53
                     port: 53
                     protocol: UDP
                     targetPort: 53            
