@@ -25,6 +25,8 @@ apps_dict_tpl:
                 #nodeSelector:                                                                                                                                                                                                                  
                  #node-role.kubernetes.io/master: "true"                                                                                                                                                                                              
               controller:
+                config:
+                  bind-address: 192.168.1.136
                 extraArgs:
                   enable-ssl-passthrough: ""
                   v: 3
@@ -48,8 +50,7 @@ apps_dict_tpl:
                   name:                                                                                                                                                                                                                        
                     nginx                                                                                                                                                                                                                      
                 hostNetwork: true                                                                                                                                                                                                              
-                kind: DaemonSet 
-              bind-address: 192.168.1.136
+                kind: DaemonSet
               udp:                                                                                                                                                                                                                             
                 #53: "openstack/powerdns:53"      
                 "53": "bind9-4207678241/bind9-4207678241-svc:53"
