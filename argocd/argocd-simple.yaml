@@ -22,6 +22,7 @@ apps_dict_tpl:
             valuesObject:
               configs:
                 cm:
+                  exec.enabled: true
                   application.instanceLabelKey: argocd.argoproj.io/instance-argocd
                 #secret:
                   #argocdServerAdminPassword: {  htpasswd "admin" (derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "admin" "argo.local"  )   }
