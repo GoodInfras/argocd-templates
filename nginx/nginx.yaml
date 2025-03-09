@@ -6,7 +6,7 @@ apps_dict_tpl:
   git@github.com/ThomasInfras/argocd-template/nginx/nginx-kind:
     nginx:
       metadata:
-        namespace: argocd-infra
+        namespace: argocd
       spec:
         project: default
         source:
