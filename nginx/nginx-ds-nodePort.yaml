@@ -8,7 +8,7 @@ apps_dict_tpl:
         namespace: argocd
       spec:
         destination:
-          namespace: ingress-nginx      
+          namespace: nginx      
         syncPolicy:
           managedNamespaceMetadata: 
             labels:
