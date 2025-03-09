@@ -14,4 +14,4 @@ apps_dict_tpl:
           chart: ingress-nginx
           targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/nginx/nginx-kind" "targetRevision" }}'
         destination:
-          namespace: ingress-nginx
+          namespace: nginx
