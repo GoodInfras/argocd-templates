@@ -1,5 +1,5 @@
 apps_values:
-  argocd-simple:
+  argocd:
     domain: ".kind"
     adminArgo: ""
     ingressClassName: "nginx"
@@ -17,7 +17,7 @@ apps_dict_tpl:
         source:
           repoURL: 'https://argoproj.github.io/argo-helm'
           chart: argo-cd
-          targetRevision: '{{  index .Values.apps_values "argocd-simple" "targetRevision" }}'
+          targetRevision: '{{  index .Values.apps_values "argocd" "targetRevision" }}'
           helm:
             valuesObject:
               configs:
@@ -27,10 +27,10 @@ apps_dict_tpl:
                 #secret:
                   #argocdServerAdminPassword: {  htpasswd "admin" (derivePassword 1 "long" ((lookup "v1" "Secret" "argocd-infra" "private-repo").data.sshPrivateKey | sha256sum )  "admin" "argo.local"  )   }
               global:
-                domain: argocd{{  index .Values.apps_values "argocd-simple" "domain" }}
+                domain: argocd{{  index .Values.apps_values "argocd" "domain" }}
               server:
                 ingress:
-                  ingressClassName: '{{  index .Values.apps_values "argocd-simple" "ingressClassName" }}'
+                  ingressClassName: '{{  index .Values.apps_values "argocd" "ingressClassName" }}'
                   enabled: true
                   annotations:
                     #nginx.ingress.kubernetes.io/auth-type: basic
