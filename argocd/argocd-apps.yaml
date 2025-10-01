@@ -1,9 +1,9 @@
 apps_values:
-  git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
-    repoURL: "https://github.com/ThomasInfras/k8s-automated-kind" 
-    path: k8s-argocd-apps
+  argocd-apps:
+    repoURL: "the git repo containing the apps directory LIKE https://github.com/xxxx/xxxx" 
+    path: apps
 apps_dict_tpl:
-  git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps:
+  argocd-apps:
     k8s-argocd-apps:
       metadata:
         namespace: argocd          
@@ -11,6 +11,6 @@ apps_dict_tpl:
         destination: 
           namespace: argocd            
         source:
-          repoURL: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "repoURL" }}'
+          repoURL: '{{  index .Values.apps_values "argocd-apps" "repoURL" }}'
           targetRevision: HEAD
-          path: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/argocd/argocd-apps" "path" }}'
+          path: '{{  index .Values.apps_values "argocd-apps" "path" }}'
