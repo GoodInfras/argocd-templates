@@ -1,4 +1,4 @@
-apps_dict:
+apps_dict_tpl:
   argocd-simple:
     argocd:
       spec:
