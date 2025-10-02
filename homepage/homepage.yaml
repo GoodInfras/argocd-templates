@@ -1,20 +1,20 @@
 apps_values:
-  git@github.com/ThomasInfras/argocd-template/homepage/homepage:
+  homepage:
     targetRevision: '">0.0.0"'
     domain: .site.fr
 apps_dict_tpl:
-  git@github.com/ThomasInfras/argocd-template/homepage/homepage:
+  homepage:
     homepage:
       spec:
         source:
           repoURL: 'https://jameswynn.github.io/helm-charts'
           chart: homepage
-          targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "targetRevision" }}'
+          targetRevision: '{{  index .Values.apps_values "homepage" "targetRevision" }}'
           helm:
             valueFiles:
               - values.yaml 
             valuesObject:
-              host: &host home{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/homepage/homepage" "domain" }}
+              host: &host home{{  index .Values.apps_values "homepage" "domain" }}
               enableRbac: true
               serviceAccount:
                 create: true
