@@ -4,7 +4,7 @@ apps_dict_tpl:
       spec:
         source:
           helm:
-            valuesObjects: 
+            valuesObject: 
               repoServer:
                 volumes:
                   - name: helm-replace
