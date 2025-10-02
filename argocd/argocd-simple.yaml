@@ -10,7 +10,6 @@ apps_dict_tpl:
     argocd:
       metadata:
         namespace: argocd-infra
-      force: true
       spec:
         destination: 
           namespace: argocd
