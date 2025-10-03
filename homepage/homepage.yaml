@@ -1,7 +1,7 @@
 apps_values:
   homepage:
     targetRevision: '">0.0.0"'
-    domain: .site.fr
+    domain: .kind
 apps_dict_tpl:
   homepage:
     homepage:
@@ -14,7 +14,7 @@ apps_dict_tpl:
             valueFiles:
               - values.yaml 
             valuesObject:
-              host: &host home{{  index .Values.apps_values "homepage" "domain" }}
+              host: &host homepage{{  index .Values.apps_values "homepage" "domain" }}
               enableRbac: true
               serviceAccount:
                 create: true
@@ -64,7 +64,7 @@ apps_dict_tpl:
                     gethomepage.dev/enabled: "true"
                   annotations:
                     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                    gethomepage.dev/name: "HomepageCUSTOM"
+                    gethomepage.dev/name: "homepage"
                     gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
                   ingressClassName: "nginx"
                   hosts:
