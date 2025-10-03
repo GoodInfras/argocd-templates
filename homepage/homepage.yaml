@@ -13,7 +13,7 @@ apps_dict_tpl:
           helm:
             valueFiles:
               - values.yaml 
-            valuesObject:      
+            valuesObject:
               host: &host homepage{{  index .Values.apps_values "homepage" "domain" }}
               env:
                 - name: HOMEPAGE_ALLOWED_HOSTS
