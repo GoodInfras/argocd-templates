@@ -4,7 +4,7 @@ apps_values:
     path: apps
 apps_dict_tpl:
   argocd-apps:
-    k8s-argocd-apps:
+    apps:
       metadata:
         namespace: argocd          
       spec:
