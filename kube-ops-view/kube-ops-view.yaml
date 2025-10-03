@@ -9,10 +9,10 @@ apps_dict_tpl:
         source:
           repoURL: 'https://charts.christianhuth.de'
           chart: kube-ops-view
-          targetRevision: '{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view" "targetRevision" }}'
+          targetRevision: '{{  index .Values.apps_values "kube-ops-view" "targetRevision" }}'
           helm:
             valuesObject:
-              host: &host kube-ops-view{{  index .Values.apps_values "git@github.com/ThomasInfras/argocd-template/kube-ops-view/kube-ops-view" "domain" }}
+              host: &host kube-ops-view{{  index .Values.apps_values "kube-ops-view" "domain" }}
               ingress:
                 enabled: true
                 className: "nginx"
