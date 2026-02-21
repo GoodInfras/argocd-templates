@@ -1,7 +1,7 @@
 apps_values:
   kube-ops-view:
     domain: .site.com
-    targetRevision: '">0.0.0"'
+    targetRevision: ">0.0.0"
 apps_dict_tpl:
   kube-ops-view:
     kube-ops-view:
