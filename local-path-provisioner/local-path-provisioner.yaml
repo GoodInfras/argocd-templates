@@ -1,8 +1,7 @@
 apps_values:
   github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner:
-    targetRevision: '">0.0.0"' 
+    targetRevision: ">0.0.0"
     #"v0.0.30"
-    domain: .site.fr
 apps_dict_tpl:
   github.com/ThomasInfras/argocd-template/local-path-provisioner/local-path-provisioner:
     local-path-provisioner:
