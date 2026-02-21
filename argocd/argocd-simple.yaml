@@ -15,7 +15,7 @@ apps_dict_tpl:
           namespace: argocd
         syncPolicy:          
           syncOptions:
-            - Replace=true
+            - ServerSideApply=true
         source:
           repoURL: 'https://argoproj.github.io/argo-helm'
           chart: argo-cd
