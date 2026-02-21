@@ -1,6 +1,6 @@
 apps_values:
   homepage:
-    targetRevision: '">0.0.0"'
+    targetRevision: ">0.0.0"
     domain: .kind
 apps_dict_tpl:
   homepage:
