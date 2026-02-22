@@ -1,3 +1,4 @@
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -23,15 +24,15 @@ spec:
           helm:
             # Surcharge des valeurs Helm
             valuesFiles:
-              - openstack/values/{{ app }}.yaml
-              - openstack/values/default.yaml
+              - $templates/openstack/values/{{ app }}.yaml
+              - $templates/values/default.yaml
             values:
               - test123: '{{ default "latest"}}'
 
         # Repo contenant les values.yaml
         - repoURL: https://github.com/GoodInfras/argocd-templates.git
           targetRevision: main
-          ref: valuesRepo
+          ref: templates
 
       destination:
         server: https://kubernetes.default.svc
