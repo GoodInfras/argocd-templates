@@ -1,0 +1,31 @@
+labels:
+  server:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  ingress:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  prometheus_mysql_exporter:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  error_server:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  job:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  jobs:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  test:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  prometheus_rabbitmq_exporter:
+    node_selector_key: kubernetes.io/arch
+    node_selector_value: amd64
+  volume:
+    enabled: true      
+    class_name: "standard"   
+  pod:
+    replicas:
+      server: 1

@@ -1,0 +1,4 @@
+manifests:
+  ingress_api: false
+  ingress_management: false
+  service_ingress_management: false
