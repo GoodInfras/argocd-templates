@@ -1,5 +1,5 @@
 _app:
-  pod:
+  - pod:
     - &replicas
       replicas:
         server: &replicaset 1
@@ -10,12 +10,12 @@ _app:
           rolling_update:
             max_unavailable: 2
  
-  endpoints:
+  - endpoints:
     - &cluster_domain_suffix
-      cluster_domain_suffix: cluster.local
+      cluster_domain_suffix: cluster.local.
     - &oslo_db
       oslo_db: &ns
-        namespace: toto
+        namespace: {{ .Values.namespace | default("openstack")}}
     - &oslo_cache
       oslo_db:
         <<: *ns
@@ -24,8 +24,20 @@ _app:
         <<: *ns
     - &identity
       identity:
-        <<: *ns 
-    
+        <<: *ns
+  - labels:
+      label-openstack: 
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      label-kind: &label
+        node_selector_key: kubernetes.io/arch
+        node_selector_value: amd64   
+  - &volume:
+    volume:
+      enabled: true      
+      class_name: "standard"
+
+
 
 mariadb:
   helm3_hook: false
@@ -40,9 +52,20 @@ mariadb:
     deployment_ingress: false
     service_ingress: false
     deployment_error: false
-  volume: &volume
-    enabled: true      
-    class_name: "standard"
+  <<: *volume
+
+  labels:
+    server:
+      <<: *label
+    prometheus_mysql_exporter:
+      <<: *label
+    job:
+      <<: *label
+    test:
+      <<: *label
+    controller:
+      <<: *label
+
 
 memcached:
   helm3_hook: false
