@@ -1,5 +1,5 @@
 _app:
-  - pod:
+  pod:
     - &replicas
       replicas:
         server: &replicaset 1
@@ -10,7 +10,7 @@ _app:
           rolling_update:
             max_unavailable: 2
  
-  - endpoints:
+  endpoints:
     - &cluster_domain_suffix
       cluster_domain_suffix: cluster.local.
     - &oslo_db
@@ -25,15 +25,15 @@ _app:
     - &identity
       identity:
         <<: *ns
-  - labels:
-      label-openstack: 
-        node_selector_key: openstack-control-plane
-        node_selector_value: enabled
-      label-kind: &label
-        node_selector_key: kubernetes.io/arch
-        node_selector_value: amd64   
-  - &volume:
-    volume:
+  labels:
+    label-openstack: 
+      node_selector_key: openstack-control-plane
+      node_selector_value: enabled
+    label-kind: &label
+      node_selector_key: kubernetes.io/arch
+      node_selector_value: amd64   
+  volume:
+    - &volume:
       enabled: true      
       class_name: "standard"
 
@@ -46,13 +46,9 @@ mariadb:
   pod: 
     <<: *&replicas
     
-  manifests:
-    configmap_ingress_conf: false
-    deployment_error: false 
-    deployment_ingress: false
-    service_ingress: false
-    deployment_error: false
-  <<: *volume
+  #manifests: {configmap_ingress_conf: false, deployment_error: false, deployment_ingress: false, service_ingress: false, deployment_error: false}
+  volume:
+    <<: *volume
 
   labels:
     server:
@@ -80,10 +76,7 @@ rabbitmq:
     <<: *cluster_domain_suffix
   pod:
     <<: *replicas
-  manifests:
-    ingress_api: false
-    ingress_management: false
-    service_ingress_management: false
+  manifests: {ingress_api: false, ingress_management: false, service_ingress_management: false}
 
 keystone:
   helm3_hook: false
