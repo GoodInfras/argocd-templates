@@ -9,11 +9,14 @@ spec:
         elements:
           # Chaque élément représente une Application
           - app: mariadb
+            condition: "if or (eq (int $.Values.mariadb.pod.replicas.server) 3) (eq (int $.Values.mariadb.pod.replicas.server) 1)"
           - app: memcached
             condition: "eq (int $.Values.memcached.pod.replicas.server) 1"
           - app: memcached-mcrouter
             condition: "eq (int $.Values.memcached.pod.replicas.server) 3"
           - app: rabbitmq
+            condition: "if or (eq (int $.Values.rabbitmq.pod.replicas.server) 3) (eq (int $.Values.rabbitmq.pod.replicas.server) 1)"
+
 
   template:
     metadata:
