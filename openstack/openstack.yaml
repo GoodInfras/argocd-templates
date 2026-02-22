@@ -10,6 +10,9 @@ spec:
           # Chaque élément représente une Application
           - app: mariadb
           - app: memcached
+            condition: "eq (int $.Values.memcached.pod.replicas.server) 1"
+          - app: memcached-mcrouter
+            condition: "eq (int $.Values.memcached.pod.replicas.server) 3"
           - app: rabbitmq
 
   template:
