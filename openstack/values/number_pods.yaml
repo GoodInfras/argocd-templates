@@ -1,8 +1,10 @@
 _app:
-  pod: 
-    replicas: &replicas
-      server: &replicaset 1
-    lifecycle: &lifecycle
+  pod:
+    - &replicas
+      replicas:
+        server: &replicaset 1
+    - &lifecycle
+      lifecycle:
       upgrades:
         deployments:
           rolling_update:
@@ -31,8 +33,7 @@ mariadb:
     <<: *cluster_domain_suffix
   pod: 
     <<: *&replicas
-    replicas:
-      server: &number 1
+    
   manifests:
     configmap_ingress_conf: false
     deployment_error: false 
@@ -72,11 +73,7 @@ keystone:
   pod:
     replicas:
       api: *number
-    lifecycle: &lifecycle
-      upgrades:
-        deployments:
-          rolling_update:
-            max_unavailable: 2
+    <<: *lifecycle
 
 horizon:
   helm3_hook: false
