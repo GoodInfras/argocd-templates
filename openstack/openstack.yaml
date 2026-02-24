@@ -7,7 +7,6 @@ spec:
   generators:
     - list:
         elements:
-          # Chaque élément représente une Application
           - app: mariadb
             condition: "if or (eq (int $.Values.mariadb.pod.replicas.server) 3) (eq (int $.Values.mariadb.pod.replicas.server) 1)"
           - app: memcached
@@ -30,6 +29,7 @@ spec:
           helm:
             # Surcharge des valeurs Helm
             valuesFiles:
+              - $templates/openstack/values/values_overrides/2023.2-ubuntu_jammy.yaml 
               - $templates/openstack/values/{{ app }}.yaml
               - $templates/values/default.yaml
             values:
