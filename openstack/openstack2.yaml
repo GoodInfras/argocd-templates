@@ -1,0 +1,18 @@
+apps_values:
+  openstack-helm:
+    repoURL: "https://github.com/openstack/openstack-helm.git"
+    targetRevision: "2025.2.0"
+    path: ./
+
+apps_dict_tpl:
+  argocd-apps:
+    memcached:
+      metadata:
+        namespace: argocd        
+      spec:
+        destination: 
+          namespace: openstack            
+        sources:
+          repoURL: '{{  index .Values.apps_values "argocd-apps" "repoURL" }}'
+          targetRevision: HEAD
+          path: '{{  index .Values.apps_values "argocd-apps" "path" }}'

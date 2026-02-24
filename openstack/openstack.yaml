@@ -15,7 +15,7 @@ spec:
             condition: "eq (int $.Values.memcached.pod.replicas.server) 3"
           - app: rabbitmq
             condition: "if or (eq (int $.Values.rabbitmq.pod.replicas.server) 3) (eq (int $.Values.rabbitmq.pod.replicas.server) 1)"
-
+          - app: 
 
   template:
     metadata:
