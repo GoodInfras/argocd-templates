@@ -2,6 +2,7 @@ apps_values:
   openstack-helm:
     repoURL: "https://github.com/openstack/openstack-helm.git"
     targetRevision: "2025.2.0"
+    domain:
     path: ./
 
 apps_dict_tpl:
@@ -16,3 +17,486 @@ apps_dict_tpl:
           repoURL: '{{  index .Values.apps_values "argocd-apps" "repoURL" }}'
           targetRevision: HEAD
           path: '{{  index .Values.apps_values "argocd-apps" "path" }}'
+
+
+
+
+
+
+
+#syncPolicy:
+#  automated:
+#    prune: true
+#    selfHeal: true
+#  syncOptions:
+#    - CreateNamespace=true
+
+apps:           
+  ingress:
+    metadata:
+      name: ingress
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io/background
+    spec:
+      sources:
+        - path: charts/infra/ingress 
+          helm:
+            values: |
+              ingressDnsName: {{ .Values.ingressDnsName }}
+              {{ if .Values.ingress }}
+              {{ .Values.ingress | toYaml  }} 
+              {{ end }}
+ 
+  mariadb-cluster:
+    condition: "gt (int $.Values.mariadb.pod.replicas.server) 1"       
+    metadata:
+      name: mariadb
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/mariadb 
+          helm:
+            valueFiles:
+              - values.yaml  
+              #- values_overrides/tls.yaml
+              - /values/openstack/mariadb.yaml                            
+            values: |
+              {{- $tpl := ( tpl (.Values.mariadb_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.mariadb_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.mariadb | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}            
+
+  mariadb:
+    condition: "eq (int $.Values.mariadb.pod.replicas.server) 1"       
+    metadata:
+      name: mariadb
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/mariadb 
+          helm:
+            valueFiles:
+              - values.yaml
+              #- values_overrides/tls.yaml   
+              - /values/openstack/mariadb.yaml 
+              #- /values/openstack/mariadb_disable_ingress.yaml 
+                                        
+            values: |
+              {{- $tpl := ( tpl (.Values.mariadb_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.mariadb_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}               
+              {{- $merged := merge (.Values.mariadb | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  mariadb-svc:
+    condition: "eq (int $.Values.mariadb.pod.replicas.server) 1"       
+    metadata:
+      name: mariadb-svc
+    spec:
+      sources:
+        - path: charts/infra/svc-mariadb
+
+  mariadb-backup:
+    metadata:
+      name: mariadb-backup
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/mariadb-backup
+          helm:
+            valueFiles:
+              - values.yaml
+              - /values/openstack/mariadb-backup.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.mariadb_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.mariadb_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.mariadb | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+  mariadb-restore:
+    metadata:
+      name: mariadb-restore
+    spec:
+      sources:
+        - path: charts/infra/mariadb-restore
+          helm:
+            valueFiles:
+              - /charts/openstack-helm-infra/mariadb-backup/values.yaml
+              - /values/openstack/mariadb-restore.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.mariadb_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.mariadb_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.mariadb | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+  prometheus-openstack-exporter:
+    metadata:
+      name: prometheus-openstack-exporter
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/prometheus-openstack-exporter
+          helm:
+            valueFiles:
+              - /charts/openstack-helm-infra/prometheus-openstack-exporter/values.yaml
+              - /values/openstack/prometheus-openstack-exporter.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.prometheus_openstack_exporter_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.prometheus_openstack_exporter_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.prometheus_openstack_exporter | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+  prometheus-openstack-exporter-usage:
+    metadata:
+      name: prometheus-openstack-exporter-usage
+    spec:
+      sources:
+        - path: charts/prometheus-openstack-exporter
+          helm:
+            valueFiles:
+              - /charts/prometheus-openstack-exporter/values.yaml
+              - /values/openstack/prometheus-openstack-exporter-usage.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.prometheus_openstack_exporter_usage_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.prometheus_openstack_exporter_usage_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.prometheus_openstack_exporter_usage | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+  prometheus:
+    metadata:
+      name: prometheus
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/prometheus
+          helm:
+            valueFiles:
+              - /charts/openstack-helm-infra/prometheus/values.yaml
+              - /values/openstack/prometheus.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.prometheus_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.prometheus_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.prometheus | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+
+  grafana:
+    metadata:
+      name: grafana
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/grafana
+          helm:
+            valueFiles:
+              - /charts/openstack-helm-infra/grafana/values.yaml
+              - /values/openstack/grafana.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.grafana_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.grafana_tpl_string | default (dict | toYaml) ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.grafana | default (dict)) (fromYaml $tpl) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+  memcached:
+    condition: "eq (int $.Values.memcached.pod.replicas.server) 1"
+    metadata:
+      name: memcached 
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/memcached
+          helm:
+            valueFiles: 
+              - values.yaml   
+              - /values/openstack/memcached.yaml   
+            values: |
+              {{- $tpl := ( tpl (.Values.memcached_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.memcached_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}  
+              {{- $merged := merge (.Values.memcached | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}                 
+
+  memcached-mcrouter:
+    condition: "gt (int $.Values.memcached.pod.replicas.server) 1"
+    metadata:
+      name: memcached-mcrouter 
+    spec:
+      sources:
+        - path: charts/infra/memcached-mcrouter 
+          helm:
+            valueFiles: 
+              - /values/openstack/memcached.yaml   
+            values: |
+              {{- $tpl := ( tpl (.Values.memcached_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.memcached_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}  
+              {{- $merged := merge (.Values.memcached | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}   
+
+
+  rabbitmq:
+    metadata:
+      name: rabbitmq 
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/rabbitmq 
+          helm:
+            valueFiles:
+              - values.yaml  
+              - values_overrides/rabbitmq-exporter.yaml
+              #- values_overrides/tls.yaml   
+              - /values/openstack/rabbitmq.yaml            
+            values: |
+              {{- $tpl := ( tpl (.Values.rabbitmq_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.rabbitmq_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.rabbitmq | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}          
+
+  keystone:
+    force: true
+    metadata:
+      name: keystone 
+    spec:      
+      syncPolicy:
+        automated:
+          selfHeal: false
+        syncOptions:
+          - RespectIgnoreDifferences=true  
+      # bug not work in sync with ui    
+      ignoreDifferences:
+        - kind: 'Secret'      
+          name: keystone-credential-keys
+          jsonPointers:
+          - /data     
+        - kind: 'Secret'      
+          name: keystone-fernet-keys
+          jsonPointers:
+          - /data        
+      sources:
+        - path: charts/openstack-helm/keystone
+          helm:
+            valueFiles: 
+              - values.yaml    
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml 
+              - /values/openstack/keystone.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.keystone_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.keystone_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.keystone | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  horizon:
+    force: true                
+    metadata:
+      name: horizon 
+    spec:        
+      sources:
+        - path: charts/openstack-helm/horizon
+          helm:
+            valueFiles:  
+              - values.yaml   
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml 
+              - /values/openstack/horizon.yaml
+            values: |
+              {{ $tpl := ( tpl (.Values.horizon_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.horizon_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.horizon| default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml }}
+
+
+
+
+
+  glance:
+    force: true    
+    metadata:
+      name: glance 
+    spec:
+      sources:
+        - path: charts/openstack-helm/glance
+          helm:
+            valueFiles:  
+              - values.yaml   
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml 
+              - /values/openstack/glance.yaml
+            values: |
+              {{ if eq (int $.Values.glance.pod.replicas.api) 1}}
+              accessModes: "ReadWriteOnce"
+              {{ end}}
+              {{- $tpl := ( tpl (.Values.glance_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.glance_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.glance | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  cinder:
+    force: true
+    metadata:
+      name: cinder 
+    spec:      
+      sources:
+        - path: charts/openstack-helm/cinder
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml 
+              #- values_overrides/tls.yaml
+              - /values/openstack/cinder.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.cinder_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.cinder_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge (.Values.cinder | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  libvirt:
+    metadata:
+      name: libvirt 
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/libvirt
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml 
+              - /values/openstack/libvirt.yaml
+            values: |
+              {{- $tpl_string := ( tpl (.Values.libvirt_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge  (.Values.libvirt | default (dict)) (fromYaml $tpl_string)  -}}
+              {{ $merged | toYaml  }}
+
+  openvswitch:
+    metadata:
+      name: openvswitch
+    spec:
+      sources:
+        - path: charts/openstack-helm-infra/openvswitch
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/ubuntu_jammy.yaml
+              - /values/openstack/openvswitch.yaml
+            values: |
+              {{- $tpl_string := ( tpl (.Values.openvswitch_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge  (.Values.openvswitch | default (dict)) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  neutron:
+    force: true
+    metadata:
+      name: neutron 
+    spec:              
+      sources:
+        - path: charts/openstack-helm/neutron
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml
+              - /values/openstack/neutron.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.neutron_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.neutron_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge (.Values.neutron | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  placement:
+    force: true
+    metadata:
+      name: placement
+    spec:        
+      sources:
+        - path: charts/openstack-helm/placement
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml
+              - /values/openstack/placement.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.placement_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.placement_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge (.Values.placement | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  nova:
+    force: true
+    metadata:
+      name: nova 
+    spec:          
+      sources:
+        - path: charts/openstack-helm/nova
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml
+              - /values/openstack/nova.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.nova_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.nova_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge (.Values.nova | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+
+  barbican:
+    force: true
+    metadata:
+      name: barbican 
+    spec:          
+      sources:
+        - path: charts/openstack-helm/barbican
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.2-ubuntu_jammy.yaml
+              #- values_overrides/tls.yaml
+              - /values/openstack/barbican.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.barbican_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.barbican_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}              
+              {{- $merged := merge (.Values.barbican | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  powerdns:
+    metadata:
+      name: powerdns 
+    spec:          
+      sources:
+        - path: charts/openstack-helm-infra/powerdns
+          helm:
+            valueFiles:  
+              - values.yaml
+              - values_overrides/2023.1-ubuntu_focal.yaml
+              #- values_overrides/tls.yaml
+              - /values/openstack/powerdns.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.powerdns_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.powerdns_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.powerdns | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
+
+  designate:
+    force: true
+    metadata:
+      name: designate
+    spec:          
+      sources:
+        - path: charts/openstack-helm/designate
+          helm:
+            valueFiles:  
+              - values.yaml
+              - /values/openstack/designate.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.designate_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.designate_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.designate | default (dict) ) (fromYaml $tpl_string) (fromYaml $tpl )  -}}
+              {{ $merged | toYaml  }}
+
+  octavia:
+    force: true
+    metadata:
+      name: octavia 
+    spec:          
+      sources:
+        - path: charts/openstack-helm/octavia
+          helm:
+            valueFiles:  
+              - values.yaml
+              - /values/openstack/octavia.yaml
+            values: |
+              {{- $tpl := ( tpl (.Values.octavia_tpl | toYaml) .) | default (dict) -}}
+              {{- $tpl_string := ( tpl (.Values.octavia_tpl_string | default (dict | toYaml)  ) .) | default (dict) -}}
+              {{- $merged := merge (.Values.octavia | default (dict) ) (fromYaml $tpl ) (fromYaml $tpl_string) -}}
+              {{ $merged | toYaml  }}
